@@ -93,9 +93,19 @@ public class SysDeviceServiceImpl implements ISysDeviceService {
     public SysDeviceResponse checkDevice(SysDevice device) {
         SysDeviceResponse result = new SysDeviceResponse();
         SysDevice sysDeviceResponse = sysDeviceMapper.checkDevice(device);
+        Date date = new Date();
+        if (Objects.isNull(sysDeviceResponse)){
+           
+            device.setActivationDate(date);
+//            device.setEndDate(date.);
+            sysDeviceMapper.insertSysDevice(device);
+            result.setCheck(true);
+            result.setMsg("试用期三天");
+        }
+        
+        
         if (Objects.nonNull(sysDeviceResponse)) {
             result.setEndDate(sysDeviceResponse.getEndDate());
-            Date date = new Date();
             if (date.before(result.getEndDate())) {
                 result.setCheck(true);
             }

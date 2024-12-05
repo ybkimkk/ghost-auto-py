@@ -29,6 +29,9 @@ public class SysDevice extends BaseEntity
     
     @Excel(name = "激活时间", readConverterExp = "$column.readConverterExp()")
     private Date activationDate;
+
+    @Excel(name = "备注", readConverterExp = "$column.readConverterExp()")
+    private Date remark;
     
     /** $column.columnComment */
     @Excel(name = "排序", readConverterExp = "$column.readConverterExp()")

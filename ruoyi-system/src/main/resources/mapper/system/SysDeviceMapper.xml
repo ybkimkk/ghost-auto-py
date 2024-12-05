@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deviceId"    column="device_id"    />
         <result property="endDate"    column="end_date"    />
         <result property="activationDate"    column="activation_date"    />
+        <result property="remark"    column="remark"    />
         <result property="roleSort"    column="role_sort"    />
     </resultMap>
 
@@ -22,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
             <if test="endDate != null "> and end_date = #{endDate}</if>
             <if test="activationDate != null "> and activation_date = #{activationDate}</if>
+            <if test="remark != null "> and remark = #{remark}</if>
             <if test="roleSort != null "> and role_sort = #{roleSort}</if>
         </where>
     </select>
@@ -36,12 +38,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="deviceId != null and deviceId != ''">device_id,</if>
             <if test="endDate != null">end_date,</if>
+            <if test="activationDate != null">activation_date,</if>
+            <if test="remark != null">remark,</if>
             <if test="roleSort != null">role_sort,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
             <if test="endDate != null">#{endDate},</if>
             <if test="activation_date != null">#{activationDate},</if>
+            <if test="remark != null">#{remark},</if>
             <if test="roleSort != null">#{roleSort},</if>
          </trim>
     </insert>
@@ -51,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="endDate != null">end_date = #{endDate},</if>
             <if test="activationDate != null">activation_date = #{activationDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="roleSort != null">role_sort = #{roleSort},</if>
         </trim>
         where device_id = #{deviceId}

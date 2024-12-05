@@ -12,5 +12,7 @@ public class SysDeviceResponse implements Serializable {
 
     private Date endDate;
     
+    private String msg;
+    
     private boolean check;
 }
