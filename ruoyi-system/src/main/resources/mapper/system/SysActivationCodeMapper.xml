@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysActivationCodeMapper">
+    
+    <resultMap type="SysActivationCode" id="SysActivationCodeResult">
+        <result property="id"    column="id"    />
+        <result property="activationCode"    column="activation_code"    />
+        <result property="useDate"    column="use_date"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="roleSort"    column="role_sort"    />
+        <result property="activationDate"    column="activation_date"    />
+        <result property="endDate"    column="end_date"    />
+    </resultMap>
+
+    <sql id="selectSysActivationCodeVo">
+        select id, activation_code, use_date, create_date, role_sort, activation_date, end_date from sys_activation_code
+    </sql>
+
+    <select id="selectSysActivationCodeList" parameterType="SysActivationCode" resultMap="SysActivationCodeResult">
+        <include refid="selectSysActivationCodeVo"/>
+        <where>  
+            <if test="activationCode != null  and activationCode != ''"> and activation_code = #{activationCode}</if>
+            <if test="useDate != null "> and use_date = #{useDate}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="roleSort != null "> and role_sort = #{roleSort}</if>
+            <if test="activationDate != null "> and activation_date = #{activationDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysActivationCodeById" parameterType="Long" resultMap="SysActivationCodeResult">
+        <include refid="selectSysActivationCodeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysActivationCode" parameterType="SysActivationCode" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_activation_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activationCode != null and activationCode != ''">activation_code,</if>
+            <if test="useDate != null">use_date,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="roleSort != null">role_sort,</if>
+            <if test="activationDate != null">activation_date,</if>
+            <if test="endDate != null">end_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activationCode != null and activationCode != ''">#{activationCode},</if>
+            <if test="useDate != null">#{useDate},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="roleSort != null">#{roleSort},</if>
+            <if test="activationDate != null">#{activationDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysActivationCode" parameterType="SysActivationCode">
+        update sys_activation_code
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activationCode != null and activationCode != ''">activation_code = #{activationCode},</if>
+            <if test="useDate != null">use_date = #{useDate},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="roleSort != null">role_sort = #{roleSort},</if>
+            <if test="activationDate != null">activation_date = #{activationDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysActivationCodeById" parameterType="Long">
+        delete from sys_activation_code where id = #{id}
+    </delete>
+
+    <delete id="deleteSysActivationCodeByIds" parameterType="String">
+        delete from sys_activation_code where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysDeviceMapper">
-    
+
     <resultMap type="SysDevice" id="SysDeviceResult">
-        <result property="deviceId"    column="device_id"    />
-        <result property="endDate"    column="end_date"    />
-        <result property="activationDate"    column="activation_date"    />
-        <result property="remark"    column="remark"    />
-        <result property="roleSort"    column="role_sort"    />
+        <result property="deviceId" column="device_id"/>
+        <result property="activationId" column="activation_id"/>
+        <result property="remark" column="remark"/>
+        <result property="roleSort" column="role_sort"/>
+        <association property="sysActivationCode" javaType="com.ruoyi.system.domain.SysActivationCode">
+            <result property="id" column="id"/>
+            <result property="activationCode" column="activation_code"/>
+            <result property="useDate" column="use_date"/>
+            <result property="createDate" column="create_date"/>
+            <result property="roleSort" column="role_sort"/>
+            <result property="activationDate" column="activation_date"/>
+            <result property="endDate" column="end_date"/>
+        </association>
     </resultMap>
 
+
+
     <sql id="selectSysDeviceVo">
-        select device_id, end_date, activation_date, role_sort
+        select device_id, remark, role_sort
         from sys_device
     </sql>
 
     <select id="selectSysDeviceList" parameterType="SysDevice" resultMap="SysDeviceResult">
-        <include refid="selectSysDeviceVo"/>
-        <where>  
-            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
-            <if test="endDate != null "> and end_date = #{endDate}</if>
-            <if test="activationDate != null "> and activation_date = #{activationDate}</if>
-            <if test="remark != null "> and remark = #{remark}</if>
-            <if test="roleSort != null "> and role_sort = #{roleSort}</if>
+        select device_id,
+        sac.end_date,
+        sac.activation_date,
+        sd.remark,
+        sd.role_sort,
+        activation_code
+        from sys_device
+        as sd left join sys_activation_code as sac on sd.activation_id = sac.id
+        <where>
+            <if test="deviceId != null  and deviceId != ''">and UPPER(device_id) like
+                concat('%',UPPER(#{deviceId}),'%')
+            </if>
+            <if test="sysActivationCode != null and sysActivationCode.endDate != null ">and end_date = #{endDate}</if>
+            <if test="sysActivationCode != null and sysActivationCode.activationDate != null ">and activation_date = #{activationDate}</if>
+            <if test="remark != null ">and remark = #{remark}</if>
+            <if test="roleSort != null ">and sd.role_sort = #{roleSort}</if>
         </where>
     </select>
-    
+
     <select id="selectSysDeviceByDeviceId" parameterType="String" resultMap="SysDeviceResult">
         <include refid="selectSysDeviceVo"/>
         where device_id = #{deviceId}
@@ -37,25 +56,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sys_device
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="deviceId != null and deviceId != ''">device_id,</if>
-            <if test="endDate != null">end_date,</if>
-            <if test="activationDate != null">activation_date,</if>
+
             <if test="remark != null">remark,</if>
             <if test="roleSort != null">role_sort,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
-            <if test="endDate != null">#{endDate},</if>
-            <if test="activation_date != null">#{activationDate},</if>
+
             <if test="remark != null">#{remark},</if>
             <if test="roleSort != null">#{roleSort},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSysDevice" parameterType="SysDevice">
         update sys_device
         <trim prefix="SET" suffixOverrides=",">
-            <if test="endDate != null">end_date = #{endDate},</if>
-            <if test="activationDate != null">activation_date = #{activationDate},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="roleSort != null">role_sort = #{roleSort},</if>
         </trim>
@@ -63,19 +78,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteSysDeviceByDeviceId" parameterType="String">
-        delete from sys_device where device_id = #{deviceId}
+        delete
+        from sys_device
+        where device_id = #{deviceId}
     </delete>
 
     <delete id="deleteSysDeviceByDeviceIds" parameterType="String">
-        delete from sys_device where device_id in 
+        delete from sys_device where device_id in
         <foreach item="deviceId" collection="array" open="(" separator="," close=")">
             #{deviceId}
         </foreach>
     </delete>
-    
-    
+
+
     <select id="checkDevice" parameterType="SysDevice" resultMap="SysDeviceResult">
-        select end_date from sys_device where device_id = #{deviceId}
+        select end_date
+        from sys_device
+                 join sys_activation_code on sys_device.activation_id = sys_activation_code.id
+        where device_id = #{deviceId}
+          and activation_code = #{activationCode}
     </select>
 
 </mapper>

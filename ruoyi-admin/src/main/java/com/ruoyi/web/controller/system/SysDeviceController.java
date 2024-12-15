@@ -20,7 +20,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 【设备】Controller
  * 
  * @author ruoyi
  * @date 2024-12-05
@@ -42,7 +42,7 @@ public class SysDeviceController extends BaseController
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询【设备】列表
      */
     @RequiresPermissions("system:device:list")
     @PostMapping("/list")
@@ -55,21 +55,21 @@ public class SysDeviceController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出【设备】列表
      */
     @RequiresPermissions("system:device:export")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "【设备】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(SysDevice sysDevice)
     {
         List<SysDevice> list = sysDeviceService.selectSysDeviceList(sysDevice);
         ExcelUtil<SysDevice> util = new ExcelUtil<SysDevice>(SysDevice.class);
-        return util.exportExcel(list, "【请填写功能名称】数据");
+        return util.exportExcel(list, "【设备】数据");
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增【设备】
      */
     @GetMapping("/add")
     public String add()
@@ -78,10 +78,10 @@ public class SysDeviceController extends BaseController
     }
 
     /**
-     * 新增保存【请填写功能名称】
+     * 新增保存【设备】
      */
     @RequiresPermissions("system:device:add")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "【设备】", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(SysDevice sysDevice)
@@ -90,7 +90,7 @@ public class SysDeviceController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改【设备】
      */
     @RequiresPermissions("system:device:edit")
     @GetMapping("/edit/{deviceId}")
@@ -102,10 +102,10 @@ public class SysDeviceController extends BaseController
     }
 
     /**
-     * 修改保存【请填写功能名称】
+     * 修改保存【设备】
      */
     @RequiresPermissions("system:device:edit")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "【设备】", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(SysDevice sysDevice)
@@ -114,10 +114,10 @@ public class SysDeviceController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除【设备】
      */
     @RequiresPermissions("system:device:remove")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "【设备】", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)

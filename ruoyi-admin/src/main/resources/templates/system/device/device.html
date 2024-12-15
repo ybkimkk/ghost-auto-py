@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('【请填写功能名称】列表')"/>
+    <th:block th:include="include :: header('【设备】列表')"/>
 </head>
 <body class="gray-bg">
 <div class="container-div">
@@ -30,9 +30,9 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:device:add">
-                <i class="fa fa-plus"></i> 添加
-            </a>
+<!--            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:device:add">-->
+<!--                <i class="fa fa-plus"></i> 添加-->
+<!--            </a>-->
             <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
                shiro:hasPermission="system:device:edit">
                 <i class="fa fa-edit"></i> 修改
@@ -63,13 +63,16 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
-            modalName: "【请填写功能名称】",
+            modalName: "【设备】",
             columns: [{
                 checkbox: true
             },
                 {
                     field: 'deviceId',
                     title: '设备ID'
+                }, {
+                    field: 'activation_code',
+                    title: '激活码'
                 },
                 {
                     field: 'activationDate',
@@ -78,6 +81,10 @@
                 {
                     field: 'endDate',
                     title: '到期时间'
+                },
+                {
+                    field: 'remark',
+                    title: '备注'
                 },
                 {
                     title: '操作',
